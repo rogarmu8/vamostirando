@@ -146,20 +146,24 @@
 
 			.verkami-link {
 				font-family: 'Lacquer', sans-serif;
-				font-size: 1.2rem;
-				color: white;
+				font-size: 1.5rem;
+				color: #f2b705;
 				text-decoration: underline;
-				margin-bottom: 2rem;
+				margin-top: 2rem;
+				text-align: center;
 				transition: all 0.3s ease;
+				animation: breathing 3s ease-in-out infinite;
 			}
 
 			.verkami-link:hover {
-				color: #f2b705;
+				animation: none;
+				transform: scale(1.05);
+				color: #f2991b;
 			}
 
 			.log-line {
-				font-family: 'Owned', sans-serif;
-				font-size: 1.5rem;
+				font-family: 'Lacquer', sans-serif;
+				font-size: 2rem;
 				color: white;
 				text-align: center;
 				max-width: 600px;
@@ -216,12 +220,13 @@
 				position: relative;
 				z-index: 30;
 				pointer-events: all;
+				animation: breathing 3s ease-in-out infinite;
 			}
 
-			.nav-button:hover {
-				color: #f2991b;
-				text-shadow: 0 2px 8px rgba(255, 255, 255, 0.152);
+			.nav-button:hover, .verkami-link:hover {
+				animation: none;
 				transform: scale(1.05);
+				color: #f2991b;
 			}
 
 			.scroll-indicator {
@@ -249,6 +254,17 @@
 				}
 			}
 
+			@keyframes breathing {
+				0%, 100% {
+					transform: scale(1);
+					opacity: 0.8;
+				}
+				50% {
+					transform: scale(1.05);
+					opacity: 1;
+				}
+			}
+
 			@media (max-width: 768px) {
 				.main-title {
 					width: 95vw;
@@ -270,6 +286,10 @@
 				.log-line {
 					font-size: 1.2rem;
 					padding: 0 1rem 1rem 1rem;
+				}
+
+				.verkami-link {
+					font-size: 1.1rem;
 				}
 
 				.group-content {
@@ -308,7 +328,7 @@
 				<div class="video-container">
 					<iframe width="560" height="315" src="https://www.youtube.com/embed/hIvpvP1-UZQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
-				<a href="https://vkm.is/vamostirando" target="_blank" class="verkami-link">Apoya el proyecto en Verkami</a>
+				<a href="https://vkm.is/vamostirando" target="_blank" class="verkami-link">€€€ <br> Apoya el proyecto en Verkami <br> €€€</a>
 			</div>
 			
 			<div class="group-section" id="groupSection">
