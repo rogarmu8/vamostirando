@@ -1,0 +1,469 @@
+---
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Personajes - Vamos Tirando</title>
+		<style>
+			@font-face {
+				font-family: 'Owned';
+				src: url('/fonts/owned.ttf') format('truetype');
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: 'SpriteGraffiti';
+				src: url('/fonts/Sprite Graffiti.otf') format('opentype');
+				font-weight: normal;
+				font-style: normal;
+			}
+
+            @font-face {
+				font-family: 'Lacquer';
+				src: url('/fonts/Lacquer-Regular.ttf') format('truetype');
+				font-weight: normal;
+				font-style: normal;
+			}
+
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: 'Lacquer', sans-serif;
+				overflow-x: hidden;
+				background: #000;
+				color: white;
+			}
+
+			.background {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: -1;
+				background-image: url('/img/bg.svg');
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+
+			.container {
+				position: relative;
+				min-height: 1800vh;
+				overflow: hidden;
+			}
+
+			.intro-section {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 2;
+				opacity: 1;
+				padding: 2rem;
+			}
+
+			.intro-section.hidden {
+				opacity: 0;
+			}
+
+			.intro-text {
+				max-width: 800px;
+				text-align: center;
+				font-size: 2rem;
+				line-height: 1.4;
+				text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+			}
+
+			.scroll-indicator {
+				position: fixed;
+				bottom: 2rem;
+				left: 50%;
+				transform: translateX(-50%);
+				color: white;
+				font-size: 1.2rem;
+				opacity: 0.8;
+				animation: bounce 2s infinite;
+				z-index: 15;
+			}
+
+			@keyframes bounce {
+				0%, 20%, 50%, 80%, 100% {
+					transform: translateX(-50%) translateY(0);
+				}
+				40% {
+					transform: translateX(-50%) translateY(-10px);
+				}
+				60% {
+					transform: translateX(-50%) translateY(-5px);
+				}
+			}
+
+			@media (max-width: 768px) {
+				.intro-text {
+					font-size: 1.2rem;
+					padding: 0 1rem;
+				}
+
+				.scroll-indicator {
+					font-size: 0.9rem;
+					bottom: 1.5rem;
+				}
+
+				.character-content {
+					flex-direction: column;
+					gap: 2rem;
+					padding: 0 1rem;
+				}
+
+				.character-content.right {
+					flex-direction: column;
+				}
+
+				.character-image {
+					width: 80%;
+				}
+
+				.character-info {
+					width: 100%;
+					font-size: 1.2rem;
+					text-align: center;
+				}
+
+				.actor-image {
+					width: 90vw;
+					max-width: 400px;
+				}
+
+				.actor-name {
+					font-size: 2rem;
+				}
+
+				.back-arrow {
+					top: 1rem;
+					left: 1rem;
+					font-size: 1.5rem;
+				}
+			}
+
+			.character-section, .actor-section {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 1;
+				opacity: 0;
+				transform: translateY(100vh);
+			}
+
+			.actor-section {
+				flex-direction: column;
+				text-align: center;
+			}
+
+			.character-section.visible, .actor-section.visible {
+				opacity: 1;
+			}
+
+			.character-section.fading, .actor-section.fading {
+				opacity: 0;
+			}
+
+			.character-content {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 90%;
+				max-width: 1400px;
+				gap: 3vw;
+			}
+
+			.character-image {
+				width: 45%;
+				max-width: 600px;
+				height: auto;
+				margin: 0;
+			}
+
+			.character-info {
+				width: 45%;
+				font-size: 1.5rem;
+				line-height: 1.4;
+				text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+				margin: 0;
+				text-align: left;
+			}
+
+			.character-content.right {
+				flex-direction: row-reverse;
+			}
+
+			.actor-image {
+				width: 80vw;
+				max-width: 550px;
+				height: auto;
+				object-fit: cover;
+				margin: 1rem 0;
+			}
+
+			.actor-name {
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 2.5rem;
+				color: #f2b705;
+				text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+			}
+
+			.section-fade {
+				opacity: 1;
+				transition: opacity 0.8s ease-out;
+			}
+
+			.section-fade.hidden {
+				opacity: 0;
+			}
+
+			.back-arrow {
+				position: fixed;
+				top: 2rem;
+				left: 2rem;
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 2rem;
+				color: #ffffff;
+				text-decoration: none;
+				z-index: 20;
+				transition: all 0.3s ease;
+				opacity: 0.8;
+			}
+
+			.back-arrow:hover {
+				transform: translateX(-5px);
+				opacity: 1;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="background"></div>
+		
+		<a href="/" class="back-arrow">←</a>
+		
+		<div class="container">
+			<div class="intro-section" id="introSection">
+				<p class="intro-text">
+					Tras acabar sus estudios universitarios, Andrés, David, Rómulo y Alex se enfrentan a un paisaje laboral desolador, emocionalmente inestable y lleno de puertas giratorias.
+				</p>
+				<div class="scroll-indicator" id="scrollPrompt">↓ Continuar ↓</div>
+			</div>
+
+			<!-- Andrés -->
+			<div class="character-section" id="andresSection">
+				<div class="character-content">
+					<img src="/img/chars/Andrés.svg" alt="Andrés" class="character-image" />
+					<div class="character-info">
+						Andrés, soñador frustrado y pesimista vocacional, intenta mantener la fe en el cine mientras encadena prácticas no remuneradas y auto boicots creativos.
+					</div>
+				</div>
+			</div>
+
+			<div class="actor-section" id="andresActorSection">
+				<img src="/img/chars/andres-actor.jpg" alt="Actor Andrés" class="actor-image" />
+				<div class="actor-name">Andrés - Andrés</div>
+			</div>
+
+			<!-- David -->
+			<div class="character-section" id="davidSection">
+				<div class="character-content right">
+					<img src="/img/chars/David.svg" alt="David" class="character-image" />
+					<div class="character-info">
+						David, el más pragmático del grupo, reparte pizzas para no ser echado de casa por sus abuelos, mientras simula tenerlo todo bajo control.
+					</div>
+				</div>
+			</div>
+
+			<div class="actor-section" id="davidActorSection">
+				<img src="/img/chars/david-actor.jpg" alt="Actor David" class="actor-image" />
+				<div class="actor-name">David - David</div>
+			</div>
+
+			<!-- Rómulo -->
+			<div class="character-section" id="romuloSection">
+				<div class="character-content">
+					<img src="/img/chars/Rómulo.svg" alt="Rómulo" class="character-image" />
+					<div class="character-info">
+						Rómulo, un programador ambicioso pero ingenuo, se mueve entre estafas piramidales y side-projects que nunca despegan.
+					</div>
+				</div>
+			</div>
+
+			<div class="actor-section" id="romuloActorSection">
+				<img src="/img/chars/romulo-actor.jpg" alt="Actor Rómulo" class="actor-image" />
+				<div class="actor-name">Rómulo - Rómulo</div>
+			</div>
+
+			<!-- Alex -->
+			<div class="character-section" id="alexSection">
+				<div class="character-content right">
+					<img src="/img/chars/Alex.svg" alt="Alex" class="character-image" />
+					<div class="character-info">
+						Alex, infantil, inocente y cargado de ilusión, busca un hueco en la industria del videojuego mientras su mundo se desmorona entre entrevistas absurdas y contratos imposibles.
+					</div>
+				</div>
+			</div>
+
+			<div class="actor-section" id="alexActorSection">
+				<img src="/img/chars/alex-actor.jpg" alt="Actor Alex" class="actor-image" />
+				<div class="actor-name">Alex - Alex</div>
+			</div>
+		</div>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				const introSection = document.getElementById('introSection') as HTMLElement;
+				const sections = [
+					document.getElementById('andresSection'),
+					document.getElementById('andresActorSection'),
+					document.getElementById('davidSection'),
+					document.getElementById('davidActorSection'),
+					document.getElementById('romuloSection'),
+					document.getElementById('romuloActorSection'),
+					document.getElementById('alexSection'),
+					document.getElementById('alexActorSection')
+				].filter((section): section is HTMLElement => section !== null);
+
+				if (!introSection || sections.length !== 8) {
+					console.error('Required elements not found');
+					return;
+				}
+				
+				let lastScrollY = window.scrollY;
+				let ticking = false;
+
+				function updateScroll() {
+					const scrollY = window.scrollY;
+					const windowHeight = window.innerHeight;
+					const scrollProgress = (scrollY / windowHeight) / 2;
+					
+					// Handle intro section
+					if (scrollProgress <= 0.5) {
+						introSection.classList.remove('hidden');
+						introSection.style.opacity = (1 - scrollProgress * 2).toString();
+						const scrollPrompt = document.getElementById('scrollPrompt');
+						if (scrollPrompt) {
+							scrollPrompt.style.opacity = scrollY > 100 ? '0' : '0.8';
+						}
+					} else {
+						introSection.classList.add('hidden');
+						introSection.style.opacity = '0';
+					}
+
+					// Handle character and actor sections
+					sections.forEach((section, index) => {
+						const targetScrollStart = index + 1;
+						const targetScrollEnd = targetScrollStart + 1;
+						const isLastSection = index === sections.length - 1;
+						const isCharacterSection = index % 2 === 0; // Even indices are character sections
+						const isRightAligned = isCharacterSection && (index / 2) % 2 === 1; // David and Alex are right-aligned
+						
+						if (scrollProgress >= targetScrollStart && scrollProgress < targetScrollEnd) {
+							section.classList.add('visible');
+							section.classList.remove('fading');
+							
+							// Calculate progress within this section's window
+							const sectionProgress = (scrollProgress - targetScrollStart) / (targetScrollEnd - targetScrollStart);
+							
+							// First 40%: Slide up animation + character slide in
+							if (sectionProgress <= 0.4) {
+								const slideProgress = sectionProgress / 0.4;
+								const translateY = (1 - slideProgress) * 100;
+								
+								// For character sections, add horizontal slide
+								if (isCharacterSection) {
+									const characterImage = section.querySelector('.character-image') as HTMLElement;
+									if (characterImage) {
+										const slideDistance = 30; // Reduced from 100vw to 30vw for smoother effect
+										const translateX = isRightAligned 
+											? (1 - slideProgress) * slideDistance 
+											: (1 - slideProgress) * -slideDistance;
+										characterImage.style.transform = `translateX(${translateX}vw)`;
+									}
+								}
+								
+								section.style.transform = `translateY(${translateY}vh)`;
+								section.style.opacity = slideProgress.toString();
+							} 
+							// 40-85%: Extended viewing state - section stays fully visible, characters in position
+							else if (sectionProgress <= 0.85) {
+								section.style.transform = 'translateY(0vh)';
+								section.style.opacity = '1';
+								
+								// Ensure character images are in final position
+								if (isCharacterSection) {
+									const characterImage = section.querySelector('.character-image') as HTMLElement;
+									if (characterImage) {
+										characterImage.style.transform = 'translateX(0vw)';
+									}
+								}
+							} 
+							// Last 15%: Start fading out (including last section)
+							else if (sectionProgress > 0.85) {
+								const fadeProgress = (sectionProgress - 0.85) / 0.15;
+								section.style.transform = 'translateY(0vh)';
+								section.style.opacity = (1 - fadeProgress).toString();
+							}
+						} else if (scrollProgress >= targetScrollEnd) {
+							section.classList.remove('visible');
+							section.classList.add('fading');
+							section.style.opacity = '0';
+						} else {
+							section.classList.remove('visible', 'fading');
+							section.style.opacity = '0';
+							section.style.transform = 'translateY(100vh)';
+							
+							// Reset character image position when section is hidden
+							if (isCharacterSection) {
+								const characterImage = section.querySelector('.character-image') as HTMLElement;
+								if (characterImage) {
+									const slideDistance = 30;
+									const translateX = isRightAligned ? slideDistance : -slideDistance;
+									characterImage.style.transform = `translateX(${translateX}vw)`;
+								}
+							}
+						}
+					});
+					
+					lastScrollY = scrollY;
+					ticking = false;
+				}
+
+				function requestTick() {
+					if (!ticking) {
+						requestAnimationFrame(updateScroll);
+						ticking = true;
+					}
+				}
+
+				window.addEventListener('scroll', requestTick);
+				
+				// Initial call
+				updateScroll();
+			});
+		</script>
+	</body>
+</html> 
