@@ -2,13 +2,14 @@
 // Astro component frontmatter
 ---
 
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Vamos Tirando - Ordago Films</title>
+		<meta name="description" content="Una comedia negra sobre la generación que lo tiene todo... menos futuro." />
 		<style>
 			@font-face {
 				font-family: 'Owned';
@@ -38,104 +39,170 @@
 			}
 
 			body {
-				font-family: 'Arial', sans-serif;
-				overflow-x: hidden;
+				font-family: 'Lacquer', sans-serif;
 				background: #000;
+				color: white;
+				overflow-x: hidden;
 			}
 
-			.background {
+			/* Navigation */
+			.nav {
 				position: fixed;
 				top: 0;
 				left: 0;
-				width: 100%;
-				height: 100%;
-				z-index: -1;
+				right: 0;
+				z-index: 1000;
+				background: rgba(0, 0, 0, 0.9);
+				backdrop-filter: blur(10px);
+				padding: 1rem 0;
+				transition: all 0.3s ease;
+			}
+
+			.nav.hidden {
+				transform: translateY(-100%);
+			}
+
+			.nav-container {
+				max-width: 1200px;
+				margin: 0 auto;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 0 2rem;
+			}
+
+			.logo {
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 1.5rem;
+				color: #f2b705;
+				text-decoration: none;
+			}
+
+			.nav-links {
+				display: flex;
+				gap: 2rem;
+				list-style: none;
+			}
+
+			.nav-links a {
+				color: white;
+				text-decoration: none;
+				font-size: 1rem;
+				transition: color 0.3s ease;
+			}
+
+			.nav-links a:hover {
+				color: #f2b705;
+			}
+
+			/* Hero Section */
+			.hero {
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+				background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+				position: relative;
+				padding: 2rem 0;
+			}
+
+			.hero::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
 				background-image: url('/img/bg.svg');
 				background-size: cover;
 				background-position: center;
-				background-repeat: no-repeat;
+				opacity: 0.3;
+				z-index: -1;
 			}
 
-			.container {
-				position: relative;
-				min-height: 400vh;
-				overflow: hidden;
-			}
-
-			.hero-section {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100vh;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				z-index: 3;
-				transition: all 0.8s ease-out;
-			}
-
-			.hero-section.hidden {
-				top: -100vh;
-				z-index: 0;
-			}
-
-			.title-container {
-				text-align: center;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
+			.hero-content {
+				max-width: 1000px;
+				padding: 0 0rem;
+				z-index: 1;
 			}
 
 			.main-title {
-				width: 90vw;
-				max-width: 1000px;
+				width: 100%;
+				max-width: 800px;
 				height: auto;
+				margin-bottom: -2rem;
+			}
+
+			.tagline {
+				font-size: 1.5rem;
+				line-height: 1.4;
+				margin-top: 2rem;
+				text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 			}
 
 			.subtitle {
-				width: 70vw;
-				max-width: 500px;
-				height: auto;
-				margin-top: -9rem;
-			}
-
-			.teaser-section {
-				position: fixed;
-				top: 100vh;
-				left: 0;
 				width: 100%;
-				height: 100vh;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				z-index: 2;
-				transition: all 0.8s ease-out;
-				opacity: 0;
-			}
-
-			.teaser-section.visible {
-				top: 0;
-				opacity: 1;
-			}
-
-			.teaser-section.hidden {
-				top: -100vh;
-				z-index: 0;
-				opacity: 0;
-			}
-
-			.video-container {
-				width: 80vw;
-				max-width: 800px;
-				aspect-ratio: 16/9;
+				max-width: 200px;
+				height: auto;
+				margin-top: -2rem;
 				margin-bottom: 1rem;
-				border-radius: 8px;
+				filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3)) invert(1);
+			}
+
+			.cta-buttons {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+
+			.btn {
+				padding: 1rem 2rem;
+				border: 2px solid #f2b705;
+				background: transparent;
+				color: #f2b705;
+				text-decoration: none;
+				font-family: 'Lacquer', sans-serif;
+				font-size: 1.1rem;
+				border-radius: 5px;
+				transition: all 0.3s ease;
+				cursor: pointer;
+			}
+
+			.btn:hover {
+				background: #f2b705;
+				color: #000;
+				transform: translateY(-2px);
+				box-shadow: 0 5px 15px rgba(242, 183, 5, 0.3);
+			}
+
+			.btn-primary {
+				background: #f2b705;
+				color: #000;
+			}
+
+			.btn-primary:hover {
+				background: #f2991b;
+				border-color: #f2991b;
+			}
+
+			/* Video Container */
+			.video-container {
+				max-width: 600px;
+				margin: 1rem auto;
+				aspect-ratio: 16/9;
+				border-radius: 10px;
 				overflow: hidden;
-				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+			}
+
+			/* CTA Section */
+			.cta-section {
+				padding: 3rem 2rem;
+				background: #111;
+				text-align: center;
 			}
 
 			.video-container iframe {
@@ -144,272 +211,226 @@
 				border: none;
 			}
 
-			.verkami-link {
-				font-family: 'Lacquer', sans-serif;
-				font-size: 1.5rem;
+			/* Info Section */
+			.info-section {
+				padding: 5rem 2rem;
+				background: #000;
+			}
+
+			.info-grid {
+				max-width: 1200px;
+				margin: 0 auto;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 3rem;
+			}
+
+			.info-card {
+				text-align: center;
+				padding: 2rem;
+				background: #111;
+				border-radius: 10px;
+				border: 1px solid #333;
+				transition: transform 0.3s ease;
+			}
+
+			.info-card:hover {
+				transform: translateY(-5px);
+				border-color: #f2b705;
+			}
+
+			.info-card h3 {
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 1.8rem;
 				color: #f2b705;
-				text-decoration: underline;
-				margin-top: 2rem;
+				margin-bottom: 1rem;
+			}
+
+			.info-card p {
+				line-height: 1.6;
+				font-size: 1rem;
+			}
+
+			/* Footer */
+			.footer {
+				background: #111;
+				padding: 3rem 2rem 2rem;
 				text-align: center;
-				transition: all 0.3s ease;
-				animation: breathing 3s ease-in-out infinite;
+				border-top: 1px solid #333;
 			}
 
-			.verkami-link:hover {
-				animation: none;
-				transform: scale(1.05);
-				color: #f2991b;
+			.footer-content {
+				max-width: 1200px;
+				margin: 0 auto;
 			}
 
-			.log-line {
-				font-family: 'Lacquer', sans-serif;
-				font-size: 2rem;
-				color: white;
-				text-align: center;
-				max-width: 600px;
-				line-height: 1.4;
-				text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-				padding-bottom: 2rem;
-			}
-
-			.group-section {
-				position: fixed;
-				top: 100vh;
-				left: 0;
-				width: 100%;
-				height: 100vh;
+			.footer-links {
 				display: flex;
 				justify-content: center;
-				align-items: center;
-				z-index: 1;
-				transition: all 0.8s ease-out;
-				opacity: 0;
+				gap: 2rem;
+				margin-bottom: 2rem;
+				flex-wrap: wrap;
 			}
 
-			.group-section.visible {
-				top: 0;
-				opacity: 1;
-				z-index: 4;
-			}
-
-			.group-content {
-				position: relative;
-				display: flex;
-				align-items: center;
-				gap: 3rem;
-				max-width: 1400px;
-				width: 90vw;
-			}
-
-			.group-image {
-				width: 70%;
-				max-width: 1000px;
-				height: auto;
-				pointer-events: none;
-			}
-
-			.nav-button {
-				font-family: 'SpriteGraffiti', sans-serif;
-				font-size: 3rem;
+			.footer-links a {
 				color: #f2b705;
 				text-decoration: none;
-				cursor: pointer;
-				transition: all 0.3s ease;
-				text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-				display: inline-block;
-				position: relative;
-				z-index: 30;
-				pointer-events: all;
-				animation: breathing 3s ease-in-out infinite;
+				transition: color 0.3s ease;
 			}
 
-			.nav-button:hover, .verkami-link:hover {
-				animation: none;
-				transform: scale(1.05);
+			.footer-links a:hover {
 				color: #f2991b;
 			}
 
-			.scroll-indicator {
-				position: fixed;
-				bottom: 2rem;
-				left: 50%;
-				transform: translateX(-50%);
+			.copyright {
+				color: #666;
+				font-size: 0.9rem;
+			}
+
+			/* Mobile Navigation */
+			.mobile-menu-btn {
+				display: none;
+				background: none;
+				border: none;
 				color: white;
-				font-size: 1.2rem;
-				opacity: 0.8;
-				animation: bounce 2s infinite;
-				z-index: 15;
-				font-family: 'Lacquer', sans-serif;
+				font-size: 1.5rem;
+				cursor: pointer;
 			}
 
-			@keyframes bounce {
-				0%, 20%, 50%, 80%, 100% {
-					transform: translateX(-50%) translateY(0);
-				}
-				40% {
-					transform: translateX(-50%) translateY(-10px);
-				}
-				60% {
-					transform: translateX(-50%) translateY(-5px);
-				}
-			}
-
-			@keyframes breathing {
-				0%, 100% {
-					transform: scale(1);
-					opacity: 0.8;
-				}
-				50% {
-					transform: scale(1.05);
-					opacity: 1;
-				}
-			}
-
+			/* Responsive */
 			@media (max-width: 768px) {
-				.main-title {
-					width: 95vw;
-				}
-				
-				.subtitle {
-					width: 85vw;
-					margin-top: -5rem;
+				.nav-links {
+					display: none;
 				}
 
-				.title-container {
-					margin-top: 5rem;
+				.mobile-menu-btn {
+					display: block;
+				}
+
+				.hero-content {
+					padding: 0 1rem;
+				}
+
+				.main-title {
+					max-width: 95vw;
+					transform: scale(1.2);
+				}
+
+				.subtitle {
+					max-width: 70vw;
+				}
+
+				.tagline {
+					font-size: 1.2rem;
+				}
+
+				.cta-buttons {
+					flex-direction: column;
+					align-items: center;
+				}
+
+				.btn {
+					width: 100%;
+					max-width: 300px;
+				}
+
+				.section-title {
+					font-size: 2rem;
+				}
+
+				.cta-section,
+				.info-section {
+					padding: 3rem 1rem;
 				}
 
 				.video-container {
-					width: 95vw;
+					max-width: 90vw;
+					margin: 1.5rem auto;
 				}
 
-				.log-line {
-					font-size: 1.2rem;
-					padding: 0 1rem 1rem 1rem;
-				}
-
-				.verkami-link {
-					font-size: 1.1rem;
-				}
-
-				.group-content {
-					flex-direction: column;
+				.info-grid {
+					grid-template-columns: 1fr;
 					gap: 2rem;
 				}
 
-				.group-image {
-					width: 100%;
-				}
-
-				.nav-button {
-					font-size: 1.5rem;
-				}
-
-				.scroll-indicator {
-					font-size: 0.9rem;
-					bottom: 1.5rem;
+				.footer-links {
+					flex-direction: column;
+					gap: 1rem;
 				}
 			}
 		</style>
 	</head>
 	<body>
-		<div class="background"></div>
-		
-		<div class="container">
-			<div class="hero-section" id="heroSection">
-				<div class="title-container">
-					<img src="/img/title.svg" alt="Vamos Tirando" class="main-title" />
-					<img src="/img/ordago.svg" alt="Órdago Films" class="subtitle" />
-				</div>
+		<!-- Navigation -->
+		<nav class="nav" id="nav">
+			<div class="nav-container">
+				<a href="/" class="logo">Vamos Tirando</a>
+				<ul class="nav-links">
+					<li><a href="/">Inicio</a></li>
+					<li><a href="/equipo">Equipo</a></li>
+					<li><a href="/sobre-el-proyecto">Sobre el Proyecto</a></li>
+					<li><a href="/contacto">Contacto</a></li>
+				</ul>
+				<button class="mobile-menu-btn">☰</button>
 			</div>
-			
-			<div class="teaser-section" id="teaserSection">
-				<p class="log-line">Una comedia negra sobre la generación que lo tiene todo... menos futuro.</p>
-				<div class="video-container">
-					<iframe width="560" height="315" src="https://www.youtube.com/embed/hIvpvP1-UZQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				</div>
-				<a href="https://vkm.is/vamostirando" target="_blank" class="verkami-link">€€€ <br> Apoya el proyecto en Verkami <br> €€€</a>
-			</div>
-			
-			<div class="group-section" id="groupSection">
-				<div class="group-content">
-					<img src="/img/group.svg" alt="Group" class="group-image" />
-					<a href="/personajes" class="nav-button">Conoce a los personajes</a>
-				</div>
-			</div>
-		</div>
+		</nav>
 
-		<div class="scroll-indicator"> ↓ Continuar ↓ </div>
+		<!-- Hero Section -->
+		<section class="hero">
+			<div class="hero-content">
+				<img src="/img/title.svg" alt="Vamos Tirando" class="main-title" />
+				<div class="video-container">
+					<iframe 
+						src="https://www.youtube.com/embed/hIvpvP1-UZQ" 
+						title="Vamos Tirando - Teaser" 
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+						allowfullscreen>
+					</iframe>
+				</div>
+				<p class="tagline">Una comedia negra sobre la generación que lo tiene todo... menos futuro.</p>
+				<img src="/img/ordago.svg" alt="Órdago Films" class="subtitle" />
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="footer">
+			<div class="footer-content">
+				<div class="footer-links">
+					<a href="/">Inicio</a>
+					<a href="/equipo">Equipo</a>
+					<a href="/sobre-el-proyecto">Sobre el Proyecto</a>
+					<a href="/contacto">Contacto</a>
+				</div>
+				<p class="copyright">©2025 Vamos Tirando - Ordago Films. Todos los derechos reservados.</p>
+			</div>
+		</footer>
 
 		<script>
-			document.addEventListener('DOMContentLoaded', function() {
-				const heroSection = document.getElementById('heroSection') as HTMLElement;
-				const teaserSection = document.getElementById('teaserSection') as HTMLElement;
-				const groupSection = document.getElementById('groupSection') as HTMLElement;
-				const scrollIndicator = document.querySelector('.scroll-indicator') as HTMLElement;
-				
-				if (!heroSection || !teaserSection || !groupSection || !scrollIndicator) {
-					console.error('Required elements not found');
-					return;
+			// Navigation scroll effect
+			window.addEventListener('scroll', () => {
+				const nav = document.getElementById('nav');
+				if (window.scrollY > 100) {
+					nav?.classList.add('hidden');
+				} else {
+					nav?.classList.remove('hidden');
 				}
-				
-				let lastScrollY = window.scrollY;
-				let ticking = false;
+			});
 
-				function updateScroll() {
-					const scrollY = window.scrollY;
-					const windowHeight = window.innerHeight;
-					const scrollProgress = scrollY / windowHeight;
-					
-					// Handle hero section
-					if (scrollProgress <= 0.5) {
-						heroSection.classList.remove('hidden');
-						heroSection.style.opacity = (1 - scrollProgress * 2).toString();
-					} else {
-						heroSection.classList.add('hidden');
-						heroSection.style.opacity = '0';
+			// Smooth scrolling for anchor links
+			document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+				anchor.addEventListener('click', (e: Event) => {
+					e.preventDefault();
+					const href = (e.target as HTMLAnchorElement).getAttribute('href');
+					if (href) {
+						const target = document.querySelector(href);
+						if (target) {
+							target.scrollIntoView({
+								behavior: 'smooth',
+								block: 'start'
+							});
+						}
 					}
-					
-					// Handle teaser section
-					if (scrollProgress >= 0.6 && scrollProgress < 2.0) {
-						teaserSection.classList.add('visible');
-						teaserSection.classList.remove('hidden');
-					} else if (scrollProgress >= 2.0) {
-						teaserSection.classList.add('hidden');
-						teaserSection.classList.remove('visible');
-					} else {
-						teaserSection.classList.remove('visible', 'hidden');
-					}
-					
-					// Handle group section
-					if (scrollProgress >= 2.0) {
-						groupSection.classList.add('visible');
-					} else {
-						groupSection.classList.remove('visible');
-					}
-					
-					// Hide scroll indicator after scrolling starts
-					if (scrollY > 100) {
-						scrollIndicator.style.opacity = '0';
-					} else {
-						scrollIndicator.style.opacity = '0.8';
-					}
-					
-					lastScrollY = scrollY;
-					ticking = false;
-				}
-
-				function requestTick() {
-					if (!ticking) {
-						requestAnimationFrame(updateScroll);
-						ticking = true;
-					}
-				}
-
-				window.addEventListener('scroll', requestTick);
-				
-				// Initial call
-				updateScroll();
+				});
 			});
 		</script>
 	</body>

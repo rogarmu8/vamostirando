@@ -1,0 +1,793 @@
+---
+// Astro component frontmatter
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Equipo - Vamos Tirando</title>
+		<meta name="description" content="Conoce al equipo detrás de Vamos Tirando - Ordago Films" />
+		<style>
+			@font-face {
+				font-family: 'Owned';
+				src: url('/fonts/owned.ttf') format('truetype');
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: 'SpriteGraffiti';
+				src: url('/fonts/Sprite Graffiti.otf') format('opentype');
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: 'Lacquer';
+				src: url('/fonts/Lacquer-Regular.ttf') format('truetype');
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: 'Lacquer', sans-serif;
+				background: #000;
+				color: white;
+				overflow-x: hidden;
+			}
+
+			/* Navigation */
+			.nav {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 1000;
+				background: rgba(0, 0, 0, 0.9);
+				backdrop-filter: blur(10px);
+				padding: 1rem 0;
+				transition: all 0.3s ease;
+			}
+
+			.nav.hidden {
+				transform: translateY(-100%);
+			}
+
+			.nav-container {
+				max-width: 1200px;
+				margin: 0 auto;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 0 2rem;
+			}
+
+			.logo {
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 1.5rem;
+				color: #f2b705;
+				text-decoration: none;
+			}
+
+			.nav-links {
+				display: flex;
+				gap: 2rem;
+				list-style: none;
+			}
+
+			.nav-links a {
+				color: white;
+				text-decoration: none;
+				font-size: 1rem;
+				transition: color 0.3s ease;
+			}
+
+			.nav-links a:hover {
+				color: #f2b705;
+			}
+
+			/* Main Content */
+			.main {
+				padding-top: 80px;
+			}
+
+			@media (max-width: 768px) {
+				.main {
+					padding-top: 100px;
+				}
+
+				.team-photo-section {
+					padding-top: 20vh;
+				}
+			}
+
+			/* Hero Section */
+			.hero {
+				height: 20vh;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+				background: #000;
+				position: relative;
+				z-index: 1001;
+			}
+
+			@media (max-width: 768px) {
+				.hero {
+					height: auto;
+					min-height: 15vh;
+					margin-bottom: 2rem;
+				}
+			}
+
+			.section-title {
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 4rem;
+				color: #f2b705;
+				margin-bottom: 1rem;
+				text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+			}
+
+			.section-subtitle {
+				font-size: 1.2rem;
+				opacity: 0.8;
+				max-width: 600px;
+				line-height: 1.6;
+			}
+
+			/* Team Photo Section */
+			.team-photo-section {
+				padding: 1rem 1rem 3rem 1rem;
+				background: #000;
+				text-align: center;
+			}
+
+			.team-photo {
+				max-width: 1000px;
+				width: 100%;
+				height: auto;
+				border-radius: 15px;
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+				margin-bottom: 3rem;
+			}
+
+			/* Credits Section */
+			.credits-section {
+				padding: 5rem 2rem;
+				background: #000;
+			}
+
+			.credits-container {
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+
+			.credits-title {
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 3rem;
+				color: #f2b705;
+				text-align: center;
+				margin-bottom: 4rem;
+			}
+
+			.credits-columns {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 4rem;
+			}
+
+			.credits-column {
+				display: flex;
+				flex-direction: column;
+				gap: 3rem;
+			}
+
+			.credit-category {
+				text-align: center;
+			}
+
+			.credit-category h3 {
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 1.5rem;
+				color: #f2b705;
+				margin-bottom: 1rem;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+			}
+
+			.credit-names {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+
+			.credit-item {
+				font-size: 1rem;
+				color: white;
+				padding: 0.3rem 0;
+				opacity: 0.9;
+			}
+
+			/* Cast Section */
+			.cast-section {
+				padding: 5rem 2rem;
+				background: #111;
+			}
+
+			/* Characters Section */
+			.characters-section {
+				padding: 5rem 2rem;
+				background: #000;
+			}
+
+			.content-container {
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+
+			.content-title {
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 2.5rem;
+				color: #f2b705;
+				margin-bottom: 3rem;
+				text-align: center;
+			}
+
+			.group-image-container {
+				text-align: center;
+				margin-bottom: 4rem;
+			}
+
+			.group-image {
+				max-width: 800px;
+				width: 100%;
+				height: auto;
+				filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+			}
+
+			.characters-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 2rem;
+			}
+
+			.character-item {
+				text-align: center;
+				background: #111;
+				padding: 1.5rem;
+				border-radius: 10px;
+				border: 1px solid #333;
+				transition: all 0.3s ease;
+				position: relative;
+				cursor: pointer;
+			}
+
+			.character-item:hover {
+				transform: translateY(-5px);
+				border-color: #f2b705;
+			}
+
+			.character-image {
+				width: 120px;
+				height: 120px;
+				border-radius: 50%;
+				object-fit: cover;
+				margin-bottom: 1rem;
+				border: 3px solid #f2b705;
+				transition: opacity 0.3s ease;
+			}
+
+			.character-name {
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 1.3rem;
+				color: #f2b705;
+				margin-bottom: 0.3rem;
+				transition: opacity 0.3s ease;
+			}
+
+			.actor-name {
+				font-size: 0.9rem;
+				color: #888;
+				margin-bottom: 0;
+				transition: opacity 0.3s ease;
+			}
+
+			.character-hover {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				border-radius: 10px;
+				border: 1px solid #f2b705;
+				padding: 1.5rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				opacity: 0;
+				visibility: hidden;
+				overflow: hidden;
+			}
+
+			.character-hover::before {
+				content: '';
+				position: absolute;
+				top: 5%;
+				left: -30%;
+				width: 160%;
+				height: 160%;
+				background-size: 250%;
+				background-position: center 20%;
+				opacity: 0.3;
+				z-index: -1;
+				transition: all 0.3s ease;
+			}
+
+			.character-item:nth-child(1) .character-hover::before {
+				background-image: url('/img/chars/Andrés.svg');
+			}
+
+			.character-item:nth-child(2) .character-hover::before {
+				background-image: url('/img/chars/David.svg');
+			}
+
+			.character-item:nth-child(3) .character-hover::before {
+				background-image: url('/img/chars/Rómulo.svg');
+			}
+
+			.character-item:nth-child(4) .character-hover::before {
+				background-image: url('/img/chars/Alex.svg');
+			}
+
+			.character-item:hover .character-hover {
+				opacity: 1;
+				visibility: visible;
+			}
+
+			.character-item:hover .character-hover::before {
+				opacity: 0.4;
+				transform: scale(1.05);
+			}
+
+			.character-item:hover .character-image {
+				opacity: 0;
+			}
+
+			.character-item:hover .character-name,
+			.character-item:hover .actor-name {
+				opacity: 0;
+			}
+
+			/* Mobile active state for click functionality */
+			.character-item.active .character-hover {
+				opacity: 1;
+				visibility: visible;
+			}
+
+			.character-item.active .character-hover::before {
+				opacity: 0.4;
+				transform: scale(1.05);
+			}
+
+			.character-item.active .character-image {
+				opacity: 0;
+			}
+
+			.character-item.active .character-name,
+			.character-item.active .actor-name {
+				opacity: 0;
+			}
+
+			.character-description {
+				font-size: 0.9rem;
+				line-height: 1.6;
+				text-align: center;
+				color: white;
+				padding: 1rem;
+			}
+
+			.cast-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+				gap: 3rem;
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+
+			.cast-member {
+				text-align: center;
+				background: #000;
+				padding: 2rem;
+				border-radius: 10px;
+				border: 1px solid #333;
+				transition: transform 0.3s ease;
+			}
+
+			.cast-member:hover {
+				transform: translateY(-5px);
+				border-color: #f2b705;
+			}
+
+			.cast-photo {
+				width: 150px;
+				height: 150px;
+				border-radius: 50%;
+				object-fit: cover;
+				margin: 0 auto 1rem;
+				display: block;
+				border: 3px solid #f2b705;
+			}
+
+			.cast-name {
+				font-family: 'SpriteGraffiti', sans-serif;
+				font-size: 1.5rem;
+				color: #f2b705;
+				margin-bottom: 0.5rem;
+			}
+
+			.cast-character {
+				font-size: 1rem;
+				opacity: 0.8;
+			}
+
+			/* Footer */
+			.footer {
+				background: #111;
+				padding: 3rem 2rem 2rem;
+				text-align: center;
+				border-top: 1px solid #333;
+			}
+
+			.footer-content {
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+
+			.footer-links {
+				display: flex;
+				justify-content: center;
+				gap: 2rem;
+				margin-bottom: 2rem;
+				flex-wrap: wrap;
+			}
+
+			.footer-links a {
+				color: #f2b705;
+				text-decoration: none;
+				transition: color 0.3s ease;
+			}
+
+			.footer-links a:hover {
+				color: #f2991b;
+			}
+
+			.copyright {
+				color: #666;
+				font-size: 0.9rem;
+			}
+
+			/* Mobile Navigation */
+			.mobile-menu-btn {
+				display: none;
+				background: none;
+				border: none;
+				color: white;
+				font-size: 1.5rem;
+				cursor: pointer;
+			}
+
+			/* Responsive */
+			@media (max-width: 768px) {
+				.nav-links {
+					display: none;
+				}
+
+				.mobile-menu-btn {
+					display: block;
+				}
+
+				.section-title {
+					font-size: 2.5rem;
+				}
+
+				.hero {
+					height: 15vh;
+					padding: 0 1rem;
+				}
+
+				.team-photo-section,
+				.credits-section,
+				.cast-section,
+				.characters-section {
+					padding: 3rem 1rem;
+				}
+
+				.characters-section {
+					padding: 0rem 1rem 3rem 1rem;
+					margin-top: -2rem;
+				}
+
+				.credits-title {
+					font-size: 2rem;
+				}
+
+				.credits-columns {
+					grid-template-columns: 1fr;
+					gap: 2rem;
+				}
+
+				.credits-column {
+					gap: 2rem;
+				}
+
+				.cast-grid {
+					grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+					gap: 2rem;
+				}
+
+				.characters-grid {
+					grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+					gap: 1.5rem;
+				}
+
+				.group-image {
+					max-width: 90vw;
+				}
+
+				.character-image {
+					width: 100px;
+					height: 100px;
+				}
+
+				.character-name {
+					font-size: 1.1rem;
+				}
+
+				.actor-name {
+					font-size: 0.8rem;
+				}
+
+				.character-description {
+					font-size: 0.7rem;
+					padding: 0.5rem;
+					line-height: 1.4;
+				}
+
+				.cast-photo {
+					width: 120px;
+					height: 120px;
+				}
+
+				.footer-links {
+					flex-direction: column;
+					gap: 1rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Navigation -->
+		<nav class="nav" id="nav">
+			<div class="nav-container">
+				<a href="/" class="logo">Vamos Tirando</a>
+				<ul class="nav-links">
+					<li><a href="/">Inicio</a></li>
+					<li><a href="/equipo">Equipo</a></li>
+					<li><a href="/sobre-el-proyecto">Sobre el Proyecto</a></li>
+					<li><a href="/contacto">Contacto</a></li>
+				</ul>
+				<button class="mobile-menu-btn">☰</button>
+			</div>
+		</nav>
+
+		<main class="main">
+			<!-- Hero Section -->
+			<section class="hero">
+				<h1 class="section-title">Equipo</h1>
+				<p class="section-subtitle">Conoce a las personas que han hecho posible Vamos Tirando</p>
+			</section>
+
+			<!-- Team Photo Section -->
+			<section class="team-photo-section">
+				<img src="/img/team/equipo.webp" alt="Equipo de Vamos Tirando" class="team-photo" />
+			</section>
+
+			<!-- Characters Section -->
+			<section class="characters-section">
+				<div class="content-container">
+					<h2 class="content-title">Los Personajes</h2>
+					<div class="group-image-container">
+						<img src="/img/group.svg" alt="Los Personajes de Vamos Tirando" class="group-image" />
+					</div>
+					<div class="characters-grid">
+						<div class="character-item">
+							<img src="/img/chars/andres-actor.jpg" alt="Andrés" class="character-image" />
+							<h3 class="character-name">Andrés</h3>
+							<p class="actor-name">Hector Vidondo</p>
+							<div class="character-hover">
+								<p class="character-description">Soñador frustrado y pesimista vocacional, intenta mantener la fe en el cine mientras encadena prácticas no remuneradas y auto boicots creativos.</p>
+							</div>
+						</div>
+						<div class="character-item">
+							<img src="/img/chars/david-actor.jpg" alt="David" class="character-image" />
+							<h3 class="character-name">David</h3>
+							<p class="actor-name">Weri Bouchakour</p>
+							<div class="character-hover">
+								<p class="character-description">El más pragmático del grupo, reparte pizzas para no ser echado de casa por sus abuelos, mientras simula tenerlo todo bajo control.</p>
+							</div>
+						</div>
+						<div class="character-item">
+							<img src="/img/chars/romulo-actor.jpg" alt="Rómulo" class="character-image" />
+							<h3 class="character-name">Rómulo</h3>
+							<p class="actor-name">Álvaro Díaz</p>
+							<div class="character-hover">
+								<p class="character-description">Un programador ambicioso pero ingenuo, se mueve entre estafas piramidales y side-projects que nunca despegan.</p>
+							</div>
+						</div>
+						<div class="character-item">
+							<img src="/img/chars/alex-actor.jpg" alt="Alex" class="character-image" />
+							<h3 class="character-name">Alex</h3>
+							<p class="actor-name">Jaime Rodrigo</p>
+							<div class="character-hover">
+								<p class="character-description">Infantil, inocente y cargado de ilusión, busca un hueco en la industria del videojuego mientras su mundo se desmorona entre entrevistas absurdas y contratos imposibles.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Credits Section -->
+			<section class="credits-section">
+				<div class="credits-container">
+					<div class="credits-columns">
+						<div class="credits-column">
+							<div class="credit-category">
+								<h3>Dirección</h3>
+								<div class="credit-names">
+									<div class="credit-item">Andrés Gese</div>
+									<div class="credit-item">Nerea Ilu</div>
+								</div>
+							</div>
+
+							<div class="credit-category">
+								<h3>Producción</h3>
+								<div class="credit-names">
+									<div class="credit-item">Mario Martín</div>
+									<div class="credit-item">Raquel</div>
+									<div class="credit-item">Edu</div>
+								</div>
+							</div>
+
+							<div class="credit-category">
+								<h3>Guion</h3>
+								<div class="credit-names">
+									<div class="credit-item">Andrés Gese</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="credits-column">
+							<div class="credit-category">
+								<h3>Fotografía</h3>
+								<div class="credit-names">
+									<div class="credit-item">David López-Brea</div>
+									<div class="credit-item">Javi H.</div>
+								</div>
+							</div>
+
+							<div class="credit-category">
+								<h3>Sonido</h3>
+								<div class="credit-names">
+									<div class="credit-item">Raúl</div>
+								</div>
+							</div>
+
+							<div class="credit-category">
+								<h3>Montaje</h3>
+								<div class="credit-names">
+									<div class="credit-item">Andrés Gese</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="credits-column">
+							<div class="credit-category">
+								<h3>Arte</h3>
+								<div class="credit-names">
+									<div class="credit-item">María</div>
+									<div class="credit-item">Ana</div>
+								</div>
+							</div>
+
+							<div class="credit-category">
+								<h3>Maquillaje</h3>
+								<div class="credit-names">
+									<div class="credit-item">Inés</div>
+								</div>
+							</div>
+
+							<div class="credit-category">
+								<h3>Postproducción</h3>
+								<div class="credit-names">
+									<div class="credit-item">Andrés Gese</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer">
+			<div class="footer-content">
+				<div class="footer-links">
+					<a href="/">Inicio</a>
+					<a href="/equipo">Equipo</a>
+					<a href="/sobre-el-proyecto">Sobre el Proyecto</a>
+					<a href="/contacto">Contacto</a>
+				</div>
+				<p class="copyright">©2025 Vamos Tirando - Ordago Films. Todos los derechos reservados.</p>
+			</div>
+		</footer>
+
+		<script>
+			// Navigation scroll effect
+			window.addEventListener('scroll', () => {
+				const nav = document.getElementById('nav');
+				if (window.scrollY > 100) {
+					nav?.classList.add('hidden');
+				} else {
+					nav?.classList.remove('hidden');
+				}
+			});
+
+			// Mobile character card click functionality
+			function isMobile() {
+				return window.innerWidth <= 768;
+			}
+
+			document.addEventListener('DOMContentLoaded', () => {
+				const characterItems = document.querySelectorAll('.character-item');
+				
+				characterItems.forEach(item => {
+					item.addEventListener('click', () => {
+						if (isMobile()) {
+							// Remove active class from all other items
+							characterItems.forEach(otherItem => {
+								if (otherItem !== item) {
+									otherItem.classList.remove('active');
+								}
+							});
+							
+							// Toggle active class on clicked item
+							item.classList.toggle('active');
+						}
+					});
+				});
+
+				// Handle window resize to switch between hover and click behavior
+				window.addEventListener('resize', () => {
+					if (!isMobile()) {
+						// Remove all active classes when switching to desktop
+						characterItems.forEach(item => {
+							item.classList.remove('active');
+						});
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
